@@ -66,14 +66,10 @@ pipeline{
                 sh "docker rm chatbot | true"
              }
         }
-        stage('Deploy to container'){
-            steps{
-                sh 'docker run -d --name chatbot -p 3000:3000 akshayarsude1997/chatbot:${BUILD_NUMBER}'
-            }
-        }
+
         stage('Update Deployment file') {
             environment {
-                GIT_REPO_NAME = "Reddit-Project"
+                GIT_REPO_NAME = "Chatbot-UI"
                 GIT_USER_NAME = "akshayarsude1997"
             }
             steps {
