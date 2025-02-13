@@ -82,7 +82,7 @@ pipeline{
                             echo $BUILD_NUMBER
                             imageTag=$(grep -oP '(?<=reddit:)[^ ]+' chatbot-ui.yaml)
                             echo $imageTag
-                            sed -i "s/reddit:${imageTag}/reddit:${BUILD_NUMBER}/" chatbot-ui.yaml
+                            sed -i "s/reddit:${imageTag}/chatbot:${BUILD_NUMBER}/" chatbot-ui.yaml
                             git add chatbot-ui.yaml
                             git commit -m "Update deployment Image to version \${BUILD_NUMBER}"
                             git push https://${GITHUB_TOKEN}@github.com/${GIT_USER_NAME}/${GIT_REPO_NAME} HEAD:main
