@@ -84,7 +84,7 @@ pipeline{
                             git config user.name "akshayarsude1997"
                             BUILD_NUMBER=${BUILD_NUMBER}
                             echo $BUILD_NUMBER
-                            imageTag=$(grep -oP '(?<=reddit:)[^ ]+' deployment.yml)
+                            imageTag=$(grep -oP '(?<=reddit:)[^ ]+' chatbot-ui.yaml)
                             echo $imageTag
                             sed -i "s/reddit:${imageTag}/reddit:${BUILD_NUMBER}/" chatbot-ui.yaml
                             git add chatbot-ui.yaml
