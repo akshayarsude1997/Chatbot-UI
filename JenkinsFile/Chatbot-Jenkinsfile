@@ -77,7 +77,7 @@ pipeline{
                 GIT_USER_NAME = "akshayarsude1997"
             }
             steps {
-                dir('K8s'){
+                dir('k8s'){
                     withCredentials([string(credentialsId: 'githubcred', variable: 'GITHUB_TOKEN')]) { //add githubcred as secret text credential and give ur github token to it
                         sh '''
                             git config user.email "akshayarsude1997@gmail.com"
