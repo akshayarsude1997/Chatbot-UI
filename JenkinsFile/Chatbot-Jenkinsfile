@@ -71,5 +71,29 @@ pipeline{
                 sh 'docker run -d --name chatbot -p 3000:3000 akshayarsude1997/chatbot:${BUILD_NUMBER}'
             }
         }
+        stage('Update Deployment file') {
+            environment {
+                GIT_REPO_NAME = "Reddit-Project"
+                GIT_USER_NAME = "akshayarsude1997"
+            }
+            steps {
+                dir('K8s'){
+                    withCredentials([string(credentialsId: 'githubcred', variable: 'GITHUB_TOKEN')]) { //add githubcred as secret text credential and give ur github token to it
+                        sh '''
+                            git config user.email "akshayarsude1997@gmail.com"
+                            git config user.name "akshayarsude1997"
+                            BUILD_NUMBER=${BUILD_NUMBER}
+                            echo $BUILD_NUMBER
+                            imageTag=$(grep -oP '(?<=reddit:)[^ ]+' deployment.yml)
+                            echo $imageTag
+                            sed -i "s/reddit:${imageTag}/reddit:${BUILD_NUMBER}/" deployment.yml
+                            git add deployment.yml
+                            git commit -m "Update deployment Image to version \${BUILD_NUMBER}"
+                            git push https://${GITHUB_TOKEN}@github.com/${GIT_USER_NAME}/${GIT_REPO_NAME} HEAD:main
+                        '''
+                    }
+                }
+            }
+        }
     }
     }
